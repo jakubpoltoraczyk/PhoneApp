@@ -1,6 +1,7 @@
 Phone App Project
 
-Started: 20.07.2022
+Started: 2022-07-20
+
 Finished: 
 
 Authors:
