@@ -1,6 +1,21 @@
 from dataclasses import InitVar, dataclass, field
+from typing import Protocol, Type
 from PyQt5.QtWidgets import QApplication, QStackedWidget
 from .singleton import Singleton
+
+class PhoneApp(Protocol):
+    """The protocol class created to make the earlier declaration of PhoneApp class"""
+
+    ...
+
+@dataclass
+class WindowView(Protocol):
+    """The Protocol class which performs the function of every window of application.
+    
+    Params:
+        master (PhoneApp): base component of the whole app"""
+
+    master: PhoneApp
 
 @dataclass
 class PhoneApp(metaclass=Singleton):
@@ -24,16 +39,17 @@ class PhoneApp(metaclass=Singleton):
     widget: QStackedWidget = field(init=False, repr=False)
     _windows: dict = field(init=False, repr=False)
 
-    def __post_init__(self, screen_widht: int, screen_height: int) -> None:
+    def __post_init__(self, screen_width: int, screen_height: int) -> None:
         """Initialize a new PhoneApp instance
 
         Params:
             screen_widht (int): width of app
             screen_height (int): height of app"""
         self.widget = QStackedWidget()
-        self.master.setStyleSheet(open(f'src/{self.style_file}').read())
+        with open(f'src/{self.style_file}') as style_file:
+            self.master.setStyleSheet(style_file.read())
         self._windows = {}
-        self.add_set_widget(self.first_window, screen_widht, screen_height)
+        self.add_set_widget(self.first_window, screen_width, screen_height)
         self.widget.show()
 
     @property
@@ -71,7 +87,7 @@ class PhoneApp(metaclass=Singleton):
         self.width = new_width
         self.height = new_height
 
-    def add_widget(self, new_widget: object) -> None:
+    def add_widget(self, new_widget: Type[WindowView]) -> None:
         """Method which adds new class object to the dictionary, if dictionary already contains this class, it is replaced with a new one
 
         Params:
@@ -82,7 +98,7 @@ class PhoneApp(metaclass=Singleton):
         self._windows[new_widget.__name__] = widget
         self.widget.addWidget(widget)
 
-    def set_widget(self, widget: object, width: int = 0, height: int = 0) -> None:
+    def set_widget(self, widget: Type[WindowView], width: int = 0, height: int = 0) -> None:
         """Method which sets new class object on current widget
 
         Params:
@@ -96,7 +112,7 @@ class PhoneApp(metaclass=Singleton):
         name = widget.__name__
         self.widget.setCurrentWidget(self._windows.get(name))
 
-    def add_set_widget(self, new_widget: object, width: int = 0, height: int = 0):
+    def add_set_widget(self, new_widget: Type[WindowView], width: int = 0, height: int = 0) -> None:
         """Method which adds new class object to the dictionary and also sets it as current widget, if dictionary already contains this class, it is replaced with a new one
 
         Params:

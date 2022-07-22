@@ -10,7 +10,7 @@ class Singleton(type):
 
         Returns:
             the first created instance of class"""
-        if cls not in cls.instances:
+        if cls not in Singleton.instances:
             instance = type.__call__(cls, *args, **kwargs)
-            cls.instances[cls] = instance
-        return cls.instances[cls]
+            Singleton.instances[cls] = instance
+        return Singleton.instances[cls]
