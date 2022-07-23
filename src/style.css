@@ -1,0 +1,23 @@
+QDialog {
+    background-color: aquamarine;
+}
+
+QLineEdit {
+    background-color: rgb(211, 211, 66);
+    selection-background-color: rgb(2, 2, 146);
+    border: 3px solid rgb(2, 2, 146);
+    min-width: 40px;
+    border-radius: 5px;
+    padding-left: 4px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-family: Helvetica, cursive;
+}
+
+QLineEdit:hover {
+    background-color: rgb(212, 122, 38);
+}
+
+QLineEdit:focus {
+    background-color: rgb(202, 49, 10);
+}
