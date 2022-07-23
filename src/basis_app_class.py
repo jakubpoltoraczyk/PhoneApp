@@ -3,19 +3,22 @@ from typing import Protocol, Type
 from PyQt5.QtWidgets import QApplication, QStackedWidget
 from .singleton import Singleton
 
+
 class PhoneApp(Protocol):
     """The protocol class created to make the earlier declaration of PhoneApp class"""
 
     ...
 
+
 @dataclass
 class WindowView(Protocol):
     """The Protocol class which performs the function of every window of application.
-    
+
     Params:
         master (PhoneApp): base component of the whole app"""
 
     master: PhoneApp
+
 
 @dataclass
 class PhoneApp(metaclass=Singleton):
