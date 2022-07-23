@@ -18,10 +18,11 @@ class PhoneApp(Protocol):
         ...
 
 
+
 @dataclass
 class WindowView(Protocol):
-    """The Protocol class which performs the function of every window of application. Inherits from other pyqt5 
-    
+    """The Protocol class which performs the function of every window of application.
+
     Params:
         master (PhoneApp): base component of the whole app"""
 
