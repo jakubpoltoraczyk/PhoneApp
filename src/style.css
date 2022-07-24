@@ -1,0 +1,25 @@
+QTabWidget QTabBar {
+    background-color: #136ba2;
+    font: 10pt "Arial";
+}
+QTabWidget::tab-bar{
+    alignment : center;
+}
+
+ QTabWidget QTabBar::tab {
+    background-color: #136ba2;
+    height: 40px;
+    color: #bd1b1b;
+    border: #bd1b1b;
+}
+
+QTabWidget QTabBar::tab:selected {
+    background-color: #0f5d90;
+    width: 256px;
+}
+/*
+QTabBar::tab:last {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    margin-right: 678px;
+} */
