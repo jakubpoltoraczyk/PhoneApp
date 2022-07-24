@@ -17,11 +17,9 @@ class Window(QDialog):
             140,
             font_size=16,
             placeholder="jakies",
-            type_name="hej ziom",
+            _type_name="hej ziom",
             text_changed_function=lambda: print("cos tam"),
         )
-
-
 app = QApplication(sys.argv)
 window = PhoneApp(app, "SPOTIFY", "style.css", Window, 1000, 800)
 sys.exit(app.exec())
