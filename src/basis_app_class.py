@@ -1,5 +1,6 @@
 from dataclasses import InitVar, dataclass, field
 from typing import Protocol, Type, overload
+import typing
 from PyQt5.QtWidgets import QApplication, QStackedWidget
 from .singleton import Singleton
 
@@ -16,7 +17,6 @@ class PhoneApp(Protocol):
     def height(self) -> int:
         """Protocol property which basically returns a height of app"""
         ...
-
 
 
 @dataclass
@@ -112,26 +112,43 @@ class PhoneApp(metaclass=Singleton):
             del self._windows[new_widget.__name__]
         self._windows[new_widget.__name__] = widget
         self.widget.addWidget(widget)
-    @overl
+
+    @overload
     def set_widget(self, widget: Type[WindowView], width: int, height: int) -> None:
-        """Method which sets new class object on current widget
+        """Method which sets new class object on current widget and also changes width and height
 
         Params:
             widget (Type[WindowView]): class object which is setted on current widget
             widht (int): new widht of app window, if not passed, then it wouldn't change the width
             height (int): new height of app window, if not passed, then it wouldn't change the height"""
-        self.set_measures(width, height)
-        name = widget.__name__
-        self.widget.setCurrentWidget(self._windows.get(name))
+        ...
+
     @overload
     def set_widget(self, widget: Type[WindowView]) -> None:
         """Method which sets new class object on current widget
 
         Params:
             widget (Type[WindowView]): class object which is setted on current widget"""
-        name = widget.__name__
-        self.widget.setCurrentWidget(self._windows.get(name))
+        ...
 
+    def set_widget(
+        self, widget: Type[WindowView], width: int = ..., height: int = ...
+    ) -> None:
+        """Method which sets new class object on current widget
+
+        Params:
+            widget (Type[WindowView]): class object which is setted on current widget
+            widht (int): new widht of app window, if not passed, then it wouldn't change the width
+            height (int): new height of app window, if not passed, then it wouldn't change the height"""
+        if isinstance(width, int) and isinstance(height, int):
+            self.set_measures(width, height)
+            name = widget.__name__
+            self.widget.setCurrentWidget(self._windows.get(name))
+        elif isinstance(width, type(...)) and isinstance(height, type(...)):
+            name = widget.__name__
+            self.widget.setCurrentWidget(self._windows.get(name))
+        else:
+            raise TypeError("Incorrect implementation")
 
     def add_set_widget(
         self, new_widget: Type[WindowView], width: int = 0, height: int = 0
