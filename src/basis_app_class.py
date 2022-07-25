@@ -151,3 +151,11 @@ class PhoneApp(metaclass=Singleton):
         self.set_measures(width, height)
         self.add_widget(new_widget)
         self.set_widget(new_widget)
+
+    @property
+    def current_widget(self) -> WindowView:
+        """Property method which provide current widget
+        
+        Returns:
+            current widget on window"""
+        return self.widget.currentWidget()
