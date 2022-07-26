@@ -19,7 +19,6 @@ class PhoneApp(Protocol):
         ...
 
 
-@dataclass
 class WindowView(Protocol):
     """The Protocol class which performs the function of every window of application.
     Params:
@@ -28,7 +27,6 @@ class WindowView(Protocol):
     master: PhoneApp
 
 
-@dataclass
 class PhoneApp(metaclass=Singleton):
     """Singleton class which is basis for the entire app.
     Params:
@@ -41,30 +39,45 @@ class PhoneApp(metaclass=Singleton):
         widget (QStackedWidget): component which will contain every view of application, the __str__ method doesn't contain this variable and user cannot initialize it
         _windows (dict): initially empty dictionary which will contain every class as key and every instance of this class as a value, the __str__ method doesn't contain this variable and user cannot initialize it"""
 
-    master: QApplication = field(repr=False)
-    title: str
-    style_file: str
-    first_window: Type[WindowView]
-    initial_height: InitVar[int]
-    initial_width: InitVar[int]
-    widget: QStackedWidget = field(init=False, repr=False)
-    _windows: dict = field(init=False, repr=False)
+    def __init__(
+        self,
+        master: QApplication,
+        title: str,
+        first_window: Type[WindowView],
+        style_file: str = "",
+        initial_height: int = 500,
+        initial_width: int = 500,
+    ):
 
-    def __post_init__(self, screen_width: int, screen_height: int) -> None:
-        """Initialize a new PhoneApp instance
-        Params:
-            screen_widht (int): width of app
-            screen_height (int): height of app"""
+        self.master = master
         self.widget = QStackedWidget()
-        with open(f"src/{self.style_file}") as style_file:
+        self.title = title
+        with open(f"src/{style_file}") as style_file:
             self.master.setStyleSheet(style_file.read())
         self._windows = {}
-        self.add_set_widget(self.first_window, screen_width, screen_height)
+        self.add_set_widget(first_window, initial_width, initial_height)
         self.widget.show()
+
+    @property
+    def title(self) -> str:
+        """Property which provides a title of app
+
+        Returns:
+            title of the app"""
+        return self.widget.windowTitle()
+
+    @title.setter
+    def title(self, new_title: str) -> None:
+        """Property which set a title of app
+
+        Params:
+            new_title (str): title of the app"""
+        self.widget.setWindowTitle(new_title)
 
     @property
     def height(self) -> int:
         """Property which provides a height of app
+
         Returns:
             height of the app"""
         return self.widget.height()
@@ -72,6 +85,7 @@ class PhoneApp(metaclass=Singleton):
     @property
     def width(self) -> int:
         """Property which provides a width of app
+
         Returns:
             width of the app"""
         return self.widget.width()
@@ -88,6 +102,7 @@ class PhoneApp(metaclass=Singleton):
 
     def set_measures(self, new_width: int = 0, new_height: int = 0) -> None:
         """Method which sets new height and width of app
+
         Params:
             widht (int): new widht of app window
             height (int): new height of app window"""
@@ -98,6 +113,7 @@ class PhoneApp(metaclass=Singleton):
 
     def add_widget(self, new_widget: Type[WindowView]) -> None:
         """Method which adds new class object to the dictionary, if dictionary already contains this class, it is replaced with a new one
+
         Params:
             widget (Type[WindowView]): class object which is setted on current widget"""
         widget = new_widget(self)
@@ -109,6 +125,7 @@ class PhoneApp(metaclass=Singleton):
     @overload
     def set_widget(self, widget: Type[WindowView], width: int, height: int) -> None:
         """Method which sets new class object on current widget and also changes width and height
+
         Params:
             widget (Type[WindowView]): class object which is setted on current widget
             widht (int): new widht of app window, if not passed, then it wouldn't change the width
@@ -118,6 +135,7 @@ class PhoneApp(metaclass=Singleton):
     @overload
     def set_widget(self, widget: Type[WindowView]) -> None:
         """Method which sets new class object on current widget
+
         Params:
             widget (Type[WindowView]): class object which is setted on current widget"""
         ...
@@ -126,6 +144,7 @@ class PhoneApp(metaclass=Singleton):
         self, widget: Type[WindowView], width: int = ..., height: int = ...
     ) -> None:
         """Method which sets new class object on current widget
+
         Params:
             widget (Type[WindowView]): class object which is setted on current widget
             widht (int): new widht of app window, if not passed, then it wouldn't change the width
@@ -144,6 +163,7 @@ class PhoneApp(metaclass=Singleton):
         self, new_widget: Type[WindowView], width: int = 0, height: int = 0
     ) -> None:
         """Method which adds new class object to the dictionary and also sets it as current widget, if dictionary already contains this class, it is replaced with a new one
+
         Params:
             widget (Type[WindowView]): class object which added to dictionary and setted on current widget
             widht (int): new widht of app window, if not passed, then it doesn't change the width
