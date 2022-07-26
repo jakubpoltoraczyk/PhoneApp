@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QApplication, QDialog
 import sys
-from src.basis_app_class import PhoneApp
-from src.my_entry import PhoneAppEntryBox
+from src.my_entry import MyEntry
+from src.phone_app import PhoneApp
 
 
 class Window(QDialog):
@@ -9,17 +9,9 @@ class Window(QDialog):
     def __init__(self, master):
         super().__init__()
         self.master: PhoneApp = master
-        self.entry1 = PhoneAppEntryBox(
-            self,
-            122,
-            30,
-            200,
-            140,
-            font_size=16,
-            placeholder="jakies",
-            _type_name="hej ziom",
-            text_changed_function=lambda: print("cos tam"),
-        )
+        self.entry1 = MyEntry(self, placeholder="cos")
+
+
 app = QApplication(sys.argv)
 window = PhoneApp(app, "SPOTIFY", "style.css", Window, 1000, 800)
 sys.exit(app.exec())

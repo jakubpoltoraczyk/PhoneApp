@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
-from dataclasses import InitVar, dataclass, field
 from PyQt5.QtWidgets import QWidget
 from typing import Protocol
-from .basis_app_class import WindowView
+from .phone_app import WindowView
 
 
 class BaseForCustomWidget(Protocol):
@@ -39,42 +38,37 @@ class BaseForCustomWidget(Protocol):
         ...
 
 
-@dataclass
 class CustomWidget(BaseForCustomWidget, Protocol):
     ...
 
-    def __post_init__(self):
+    def __init__(self):
         self.widget: QWidget
         ...
 
 
-@dataclass
 class BaseWidget(ABC):
-    """It is a class which is base for every class which contains screen components.
-    
-    Params:
-        __master (WindowView): Class which base is QDialog class, window, where our widget has to be located.
-        _width (int): the width in pixels of item
-        _height (int): the height in pixels of item
-        _position_x (int): Position x of item, if out of window, then throw an error
-        _position_y (int): Position y of item, if out of window, then throw an error"""
-
-    __master: WindowView
-    _width: InitVar[int]
-    _height: InitVar[int]
-    _position_x: InitVar[int]
-    _position_y: InitVar[int] = field(default=2)
-    _type_name: InitVar[str] = field(default="")
+    """It is a class which is base for every class which contains screen components"""
 
     @abstractmethod
-    def __post_init__(
+    def __init__(
         self: CustomWidget,
+        master: WindowView,
         width: int,
         height: int,
         position_x: int,
         position_y: int,
         type_name: str,
     ):
+        """Method which initialize new instance of this class
+        
+        Params:
+            master (WindowView): Class which base is QDialog class, window, where our widget has to be located.
+            width (int): the width in pixels of item
+            height (int): the height in pixels of item
+            position_x (int): Position x of item, if out of window, then throw an error
+            position_y (int): Position y of item, if out of window, then throw an error
+            type_name (str): String variable used to create stylesheet of widget"""
+        self.__master = master
         self.widget.setGeometry(position_x, position_y, width, height)
         if type_name:
             self.widget.setObjectName(type_name)
@@ -149,14 +143,23 @@ class BaseWidget(ABC):
 
     @property
     def type_name(self: CustomWidget) -> str:
+        """Property which provides an object name
+        
+        Returns:
+            name of widget"""
         return self.widget.objectName()
 
     @type_name.setter
     def type_name(self: CustomWidget, name: str) -> None:
+        """Property setter which set an object name
+        
+        Params:
+            name (str): new name of widget"""
         self.widget.setObjectName(name)
 
     @type_name.deleter
     def type_name(self: CustomWidget) -> None:
+        """Property deleter which remove an object name"""
         self.widget.setObjectName("")
 
     def move(
@@ -169,3 +172,4 @@ class BaseWidget(ABC):
             new_position_y (int): new y position of item
             """
         self.widget.setGeometry(new_position_x, new_position_y, self.width, self.height)
+

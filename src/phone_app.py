@@ -1,6 +1,5 @@
 from dataclasses import InitVar, dataclass, field
 from typing import Protocol, Type, overload
-import typing
 from PyQt5.QtWidgets import QApplication, QStackedWidget
 from .singleton import Singleton
 
