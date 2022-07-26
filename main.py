@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QApplication, QDialog, QLabel
 import sys
 from src.basis_app_class import PhoneApp
+from src.tab_widget import TabWidget
 
 
 class Window(QDialog):
@@ -12,5 +13,5 @@ class Window(QDialog):
 
 
 app = QApplication(sys.argv)
-window = PhoneApp(app, "SPOTIFY", "style.css", Window, 1000, 800)
+window = PhoneApp(app, "SPOTIFY", TabWidget, "style.css", 800, 1000)
 sys.exit(app.exec())

@@ -1,0 +1,78 @@
+QStackedWidget {
+    background-color: aquamarine;
+    border: 0px, solid
+}
+
+
+QTabWidget {
+    background-color: aquamarine;
+    border: 0px, solid
+}
+
+QTabBar {
+    background-color: #136ba2;
+    font: 10pt "Arial";
+    margin-left: 22px;
+    margin-right: 22px;
+    border-bottom: 4px solid #bd1b1b;
+}
+
+QTabWidget::tab-bar {
+    alignment: center;
+    border-color: #0f5d90;
+}
+
+
+QTabBar::tab {
+    background-color: #136ba2;
+    border-bottom: 4px solid #bd1b1b;
+    height: 40px;
+    color: white;
+    font-size: 18px;
+}
+
+QTabBar::tab:first {
+    border-left: 4px solid #bd1b1b;
+    border-bottom-left-radius: 6px;
+    margin-left: 5px;
+}
+
+QTabBar::tab:last {
+    border-right: 4px solid #bd1b1b;
+    border-bottom-right-radius: 6px;
+    margin-right: 5px;
+}
+
+QTabBar::tab:selected {
+    background-color: #0f5d90;
+    border-bottom: 4px solid yellow;
+    border-right: 4px solid yellow;
+    border-left: 4px solid yellow;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+QTabBar::tab:hover {
+    background-color: #0f5d90;
+    border-bottom: 4px solid rgb(248, 134, 4);
+}
+
+QTabBar::tab:hover:last {
+    border-right: 4px solid rgb(248, 134, 4);
+}
+
+QTabBar::tab:hover:first {
+    border-left: 4px solid rgb(248, 134, 4);
+}
+
+QTabBar::tab:hover:selected {
+    border-bottom: 4px solid yellow;
+    border-right: 4px solid yellow;
+    border-left: 4px solid yellow;
+}
+
+QTabBar::tab:hover:selected {
+    border-bottom: 4px solid yellow;
+    border-right: 4px solid yellow;
+    border-left: 4px solid yellow;
+}
